@@ -1,3 +1,14 @@
+enum Player {
+    X,
+    O
+}
+
+struct Board {
+    grid: [[Result<Player, & 'static str>; 3]; 3],
+    current_turn: Player,
+    winner: Result<Player, & 'static str>
+}
+
 fn main() {
     println!("tic tac toe!");
     println!(
@@ -9,4 +20,10 @@ fn main() {
         | 7 | 8 | 9 |\n\
         -------------"
     );
+
+    let mut board = Board {
+        grid: [[Err(""), Err(""), Err("")], [Err(""), Err(""), Err("")],[Err(""), Err(""), Err("")]],
+        current_turn: Player::X,
+        winner: Err("")
+    };
 }
