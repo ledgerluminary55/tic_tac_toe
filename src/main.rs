@@ -1,12 +1,12 @@
 enum Player {
     X,
-    O
+    O,
 }
 
 struct Board {
-    grid: [[Result<Player, & 'static str>; 3]; 3],
+    grid: [[Result<Player, &'static str>; 3]; 3],
     current_turn: Player,
-    winner: Result<Player, & 'static str>
+    winner: Result<Player, &'static str>,
 }
 
 fn main() {
@@ -22,8 +22,26 @@ fn main() {
     );
 
     let mut board = Board {
-        grid: [[Err(""), Err(""), Err("")], [Err(""), Err(""), Err("")],[Err(""), Err(""), Err("")]],
+        grid: [
+            [Err(""), Err(""), Err("")],
+            [Err(""), Err(""), Err("")],
+            [Err(""), Err(""), Err("")],
+        ],
         current_turn: Player::X,
-        winner: Err("")
+        winner: Err(""),
     };
+
+    for row in board.grid {
+        for square in row {
+            print!("|");
+            match square {
+                Ok(Player::X) => print!(" X "),
+                Ok(Player::O) => print!(" O "),
+                Err("") => print!("   "),
+                _ => print!("Testing"),
+            }
+        }
+        println!("|<- next line");
+        println!("-------------");
+    }
 }
