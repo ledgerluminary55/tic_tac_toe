@@ -1,3 +1,6 @@
+use std::io::stdin;
+use std::io::stdout;
+#[derive(Debug, Clone, Copy)]
 enum Player {
     X,
     O,
@@ -11,6 +14,10 @@ struct Board {
 
 fn main() {
     println!("tic tac toe!");
+    println!(
+        "The board is structured as follows \n 
+                "
+    );
     println!(
         "------------\n\
         | 1 | 2 | 3 |\n\
@@ -31,17 +38,41 @@ fn main() {
         winner: Err(""),
     };
 
-    for row in board.grid {
-        for square in row {
-            print!("|");
-            match square {
-                Ok(Player::X) => print!(" X "),
-                Ok(Player::O) => print!(" O "),
-                Err("") => print!("   "),
-                _ => print!("Testing"),
+    while board.winner.is_err() {
+        //print!("Player {:?}, input your play", board.current_turn);
+        let mut turn = String::new();
+        stdin().read_line(&mut turn).expect("Failed to read line");
+        //print!("{}", &mut turn);
+        let play: Result<usize, _> = turn.trim().parse();
+        //turn.clear();
+
+        //match play {
+        //  Ok(n) => print!("testing"),
+        //Err(_) => print!("checking")
+        //}
+
+        let x = play.unwrap() - 1;
+        let y = x / 3;
+        let z = x % 3;
+
+        board.grid[y][z] = Ok(board.current_turn);
+
+        //if board.grid[y][z].is_ok() || x > 8 {
+        //  continue;
+        //}
+
+        for row in board.grid {
+            for square in row {
+                print!("|");
+                match square {
+                    Ok(Player::X) => print!(" X "),
+                    Ok(Player::O) => print!(" O "),
+                    Err("") => print!("   "),
+                    _ => print!("Testing"),
+                }
             }
+            println!("|");
+            println!("-------------");
         }
-        println!("|<- next line");
-        println!("-------------");
     }
 }
