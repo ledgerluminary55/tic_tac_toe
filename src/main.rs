@@ -1,3 +1,4 @@
+use std::io::Write;
 use std::io::stdin;
 use std::io::stdout;
 #[derive(Debug, Clone, Copy)]
@@ -39,7 +40,8 @@ fn main() {
     };
 
     while board.winner.is_err() {
-        //print!("Player {:?}, input your play", board.current_turn);
+        print!("Player {:?}, input your play>>", board.current_turn);
+        stdout().flush().expect("Could not flush stdout");
         let mut turn = String::new();
         stdin().read_line(&mut turn).expect("Failed to read line");
         //print!("{}", &mut turn);
@@ -61,6 +63,7 @@ fn main() {
         //  continue;
         //}
 
+        println!("-------------");
         for row in board.grid {
             for square in row {
                 print!("|");
@@ -73,6 +76,11 @@ fn main() {
             }
             println!("|");
             println!("-------------");
+        }
+
+        board.current_turn = match board.current_turn {
+            Player::X => Player::O,
+            Player::O => Player::X
         }
     }
 }
